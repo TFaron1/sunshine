@@ -13,6 +13,10 @@ int main(void)
         ClearBackground(RAYWHITE);
         DrawText("Hello World!", 16, 9, 20, RED);
         EndDrawing();
+        void DrawPixel(int posx, int posy, Color color);
+        DrawCircle(100, 100, 50, BLUE);
+        DrawRectangle(500, 500, 50, 50, RED);
+        DrawLine(200, 200, 400, 200, YELLOW);
     }
 
     CloseWindow();
