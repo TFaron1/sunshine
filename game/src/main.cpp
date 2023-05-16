@@ -8,9 +8,12 @@ int main(void)
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sunshine");
     SetTargetFPS(60);
 
-    Texture2D  texture = LoadTexture("../game/assets/textures/letterKenny.png");//loading image using the path
-   Sound sound = LoadSound("../game/assets/audio/laser.mp3");
+    InitAudioDevice();
 
+
+    Texture2D  texture = LoadTexture("../game/assets/textures/letterKenny.png");//loading image using the path
+   Sound sound = LoadSound("../game/assets/audio/chaChing.mp3");
+   
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -25,6 +28,7 @@ int main(void)
         if (IsKeyPressed(32))
         {
         PlaySound(sound);
+        
 
         }
 
