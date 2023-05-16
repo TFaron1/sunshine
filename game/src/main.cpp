@@ -8,7 +8,7 @@ int main(void)
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sunshine");
     SetTargetFPS(60);
 
-    InitAudioDevice();
+    InitAudioDevice();//to get sounds to work you must include initaudiodevice
     
 
 
@@ -47,12 +47,13 @@ int main(void)
 
         DrawPixel(10, 10, BLACK);
         
-        HideCursor();
+        HideCursor();//hides the mouse on the screen allowing the cursor to take some other form    7
 
-        rec1.x = GetMouseX() - 10;//getmouse.x and getmouse.y returns the mouse x and y positions   2
-        rec1.y = GetMouseY() - 10;
+        rec1.x = GetMouseX() ;//getmouse.x and getmouse.y returns the mouse x and y positions   2
+        rec1.y = GetMouseY() ;
         rec1.width = 20;
         rec1.height = 20;
+      
        
         rec2.x = 300;
         rec2.y = 300;
@@ -71,6 +72,8 @@ int main(void)
          {
              color = BLUE;
          }
+
+         
 
         DrawCircle(100, 300, 50, color);
         DrawRectangle(rec2.x, rec2.y, rec2.width, rec2.height, color);
