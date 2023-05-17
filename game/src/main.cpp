@@ -10,17 +10,18 @@ int main(void)
 
     InitAudioDevice();//to get sounds to work you must include initaudiodevice
     
-   
+    float vol = 1.0f;
                              ///LOAD///
    
     Texture2D  texture = LoadTexture("../game/assets/textures/letterKenny.png");//loading image
 
     Sound sound = LoadSound("../game/assets/audio/chaChing.mp3");// load sound effect
-    Music bgmusic = LoadMusicStream("../game/assets/audio/sweet.mp3");//load music          6
+    Music bgmusic = LoadMusicStream("../game/assets/audio/sweet.mp3");//load music          
 
-    Font font = LoadFont("../game/assets/fonts/bitCheese.ttf");//laods a new font   1
+    Font font = LoadFont("../game/assets/fonts/bitCheese.ttf");//laods a new font  
 
     Color color = BLUE;
+    Color recCol = BLUE;
 
     Rectangle rec1;
     Rectangle  rec2;
@@ -44,23 +45,41 @@ int main(void)
         
         if (IsKeyPressed(KEY_P) && IsMusicStreamPlaying(bgmusic) == true) 
         {
-            PauseMusicStream(bgmusic);
+            PauseMusicStream(bgmusic);// pauses music 
         }
 
         else if (IsKeyPressed(KEY_P) && IsMusicStreamPlaying(bgmusic) == false)
         {
-            ResumeMusicStream(bgmusic);
+            ResumeMusicStream(bgmusic);// resumes music
         }
 
+        if (IsKeyPressed(KEY_EQUAL) == true)
+        {
+            vol += 1;
+            if (vol > 4)
+            {
+                vol = 4;
+        }
+        }
+
+        if (IsKeyPressed(KEY_MINUS) == true)
+        {
+            vol -= 1;
+            if (vol < 0)
+            {
+                vol = 0;
+            }
+        }
+        
+        SetMusicVolume(bgmusic, vol);
         if (IsKeyPressed(KEY_SPACE))
         {
-        PlaySound(sound);
+             PlaySound(sound);
         }
 
         DrawPixel(10, 10, BLACK);
         
-
-
+        
         /////////////HOMEWORK PART 2////////////
 
          Vector2 center;
@@ -71,7 +90,14 @@ int main(void)
          center2.x = GetMouseX();
          center2.y = GetMouseY();
 
-        
+         if (IsMouseButtonPressed(1))
+         {
+             recCol.r = GetRandomValue(1, 255);
+             recCol.g = GetRandomValue(1, 255);
+             recCol.b = GetRandomValue(1, 255);
+         }
+        DrawRectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 100, 100, recCol);
+       
              DrawCircle(center.x, center.y, 50, color);
              DrawCircle(center2.x, center2.y, 50, color);
 
@@ -86,7 +112,6 @@ int main(void)
              color = BLUE;
              }
 
-        DrawRectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 100, 100, BLACK);
 
         Vector2 vec1;
         vec1.x = 500;
@@ -110,8 +135,8 @@ int main(void)
 4.HideCursor()            this function lets us get rid of our mouse cursor so that we have the ability to replace it with someting else 
 5.LoadMusic()             this lets us load audio the same way as LoadSound does but in this case it is different as we use it for Music rather than sound effects
 6.PauseMusicStream()      pauses the music that is playing
-7.
-8.
-9.
-10.
+7.IsMusicStreamPlaying()  checks if music is playing and returns a boolean if yes then true if no then false
+8.ResumeMusicStream()     resumes playing the music
+9.SetMusicVolume()        lets the player adjsut the music to their prefrance
+10.GetRandomValue()       gives a random number based on a specified min and max
 */
