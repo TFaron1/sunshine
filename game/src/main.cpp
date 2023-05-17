@@ -42,13 +42,17 @@ int main(void)
 
         UpdateMusicStream(bgmusic);
         
-        if (IsKeyPressed(KEY_P))
+        if (IsKeyPressed(KEY_P) && IsMusicStreamPlaying(bgmusic) == true) 
         {
             PauseMusicStream(bgmusic);
         }
 
+        else if (IsKeyPressed(KEY_P) && IsMusicStreamPlaying(bgmusic) == false)
+        {
+            ResumeMusicStream(bgmusic);
+        }
 
-        if (IsKeyPressed(32))
+        if (IsKeyPressed(KEY_SPACE))
         {
         PlaySound(sound);
         }
@@ -60,38 +64,30 @@ int main(void)
         /////////////HOMEWORK PART 2////////////
 
          Vector2 center;
-         center.x = 10;
-         center.y = 10;
-         
+         center.x = 100;
+         center.y = 100;
+        
          Vector2 center2;
          center2.x = GetMouseX();
          center2.y = GetMouseY();
 
         
-             DrawCircle(center.x, center.y, 5, color);
-             DrawCircle(center2.x, center2.y, 5, color);
+             DrawCircle(center.x, center.y, 50, color);
+             DrawCircle(center2.x, center2.y, 50, color);
 
-             CheckCollisionCircles(center, 5, center2, 5);
-
-             if (CheckCollisionCircles(center, 5, center2, 5) == true)
+             if (CheckCollisionCircles(center, 50, center2, 50) == true)
              {
 
                  color = BLACK;
              }
-
 
             else
              {
              color = BLUE;
              }
 
-
-        DrawCircle(100, 300, 50, color);
-        //DrawRectangle(rec2.x, rec2.y, rec2.width, rec2.height, color);
-        
-     
-
         DrawRectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 100, 100, BLACK);
+
         Vector2 vec1;
         vec1.x = 500;
         vec1.y = 600;
@@ -109,9 +105,13 @@ int main(void)
 
 /*homework part 1 function calls
 1.ToggleFullscreen()      allows us to change from a small window into a full screen image or vise versa 
-2.LoadFont()      this function allows us to have different fonts in our games rather than just defualt
-3.DrawTextEx() this works with LoadFont() it allows us to actually use the font we had loaded previously 
-4.HideCursor()    this function lets us get rid of our mouse cursor so that we have the ability to replace it with someting else 
-5.LoadMusic() this lets us load audio the same way as LoadSound does but in this case it is different as we use it for Music rather than sound effects
-
+2.LoadFont()              this function allows us to have different fonts in our games rather than just defualt
+3.DrawTextEx()            this works with LoadFont() it allows us to actually use the font we had loaded previously 
+4.HideCursor()            this function lets us get rid of our mouse cursor so that we have the ability to replace it with someting else 
+5.LoadMusic()             this lets us load audio the same way as LoadSound does but in this case it is different as we use it for Music rather than sound effects
+6.PauseMusicStream()      pauses the music that is playing
+7.
+8.
+9.
+10.
 */
