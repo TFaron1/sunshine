@@ -10,8 +10,9 @@ int main(void)
 
     InitAudioDevice();//to get sounds to work you must include initaudiodevice
     
-
-
+   
+                             ///LOAD///
+   
     Texture2D  texture = LoadTexture("../game/assets/textures/letterKenny.png");//loading image
 
     Sound sound = LoadSound("../game/assets/audio/chaChing.mp3");// load sound effect
@@ -19,7 +20,7 @@ int main(void)
 
     Font font = LoadFont("../game/assets/fonts/bitCheese.ttf");//laods a new font   1
 
-    Color color;
+    Color color = BLUE;
 
     Rectangle rec1;
     Rectangle  rec2;
@@ -33,12 +34,19 @@ int main(void)
         DrawText("Hello World!", 16, 9, 20, RED);
         EndDrawing();
        
+        HideCursor();//hides the mouse on the screen allowing the cursor to take some other form
+
         texture.height = SCREEN_HEIGHT;
         texture.width = SCREEN_WIDTH;
         DrawTexture(texture, 0, 0,RAYWHITE);//drawing the image
 
         UpdateMusicStream(bgmusic);
         
+        if (IsKeyPressed(KEY_P))
+        {
+            PauseMusicStream(bgmusic);
+        }
+
 
         if (IsKeyPressed(32))
         {
@@ -47,36 +55,39 @@ int main(void)
 
         DrawPixel(10, 10, BLACK);
         
-        HideCursor();//hides the mouse on the screen allowing the cursor to take some other form    7
 
-        rec1.x = GetMouseX() ;//getmouse.x and getmouse.y returns the mouse x and y positions   2
-        rec1.y = GetMouseY() ;
-        rec1.width = 20;
-        rec1.height = 20;
-      
-       
-        rec2.x = 300;
-        rec2.y = 300;
-        rec2.width = 50;
-        rec2.height = 50;
-             
-         DrawRectangle(rec1.x, rec1.y,rec1.width, rec1.height,WHITE);
-       
-         if (CheckCollisionRecs(rec1, rec2) == true)//this checks collision between rec 1 and rec 2 and shows it worked by changing the color of rec2   3         
-         {
 
-             color = BLACK;
-         }
+        /////////////HOMEWORK PART 2////////////
 
-         else
-         {
-             color = BLUE;
-         }
-
+         Vector2 center;
+         center.x = 10;
+         center.y = 10;
          
+         Vector2 center2;
+         center2.x = GetMouseX();
+         center2.y = GetMouseY();
+
+        
+             DrawCircle(center.x, center.y, 5, color);
+             DrawCircle(center2.x, center2.y, 5, color);
+
+             CheckCollisionCircles(center, 5, center2, 5);
+
+             if (CheckCollisionCircles(center, 5, center2, 5) == true)
+             {
+
+                 color = BLACK;
+             }
+
+
+            else
+             {
+             color = BLUE;
+             }
+
 
         DrawCircle(100, 300, 50, color);
-        DrawRectangle(rec2.x, rec2.y, rec2.width, rec2.height, color);
+        //DrawRectangle(rec2.x, rec2.y, rec2.width, rec2.height, color);
         
      
 
@@ -95,3 +106,12 @@ int main(void)
     CloseWindow();
     return 0;
 }
+
+/*homework part 1 function calls
+1.ToggleFullscreen()      allows us to change from a small window into a full screen image or vise versa 
+2.LoadFont()      this function allows us to have different fonts in our games rather than just defualt
+3.DrawTextEx() this works with LoadFont() it allows us to actually use the font we had loaded previously 
+4.HideCursor()    this function lets us get rid of our mouse cursor so that we have the ability to replace it with someting else 
+5.LoadMusic() this lets us load audio the same way as LoadSound does but in this case it is different as we use it for Music rather than sound effects
+
+*/
