@@ -97,7 +97,7 @@ int main(void)
              recCol.b = GetRandomValue(1, 255);
          }
         DrawRectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 100, 100, recCol);
-       
+             DrawCircle(10, 10, 50,  BLACK);
              DrawCircle(center.x, center.y, 50, color);
              DrawCircle(center2.x, center2.y, 50, color);
 
