@@ -3,6 +3,16 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
+Vector2 WrapAroundScreen(Vector2 position)
+{
+    Vector2 outPosition =
+    {
+        fmodf(position.x + SCREEN_WIDTH,SCREEN_WIDTH),
+        fmodf(position.y + SCREEN_HEIGHT, SCREEN_HEIGHT)
+    };
+    return outPosition;
+}
+
 int main(void)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sunshine");
@@ -18,22 +28,31 @@ int main(void)
     while (!WindowShouldClose())
     {
         const float dt = GetFrameTime();
+
+        HideCursor();
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawText("Hello World!", 16, 9, 20, RED);
         
-        rlImGuiBegin();
-        ImGui::DragFloat2("position", &(position.x), 0, SCREEN_WIDTH);
+        rlImGuiBegin();// to make any imgui window appear call rlImGuiBegin
+        ImGui::SliderFloat2("position", &(position.x), 0, SCREEN_WIDTH);
         ImGui::DragFloat2("velocity", &(velocity.x),1,-maxSpeed, maxSpeed);
         ImGui::DragFloat2("acceleration", &(acceleration.x),1,-maxAccel,maxAccel);
-        rlImGuiEnd();
+        rlImGuiEnd();// end with this when making imgui windows appear
 
-        Vector2 displacement = velocity * dt;
-        position = position + displacement;
-        velocity = velocity + acceleration * dt;
+        //update kinematics sim
+        Vector2 displacement = velocity * dt;//px/s * s= px
+        position = position + displacement + acceleration * 0.5 * dt * dt;
+        velocity = velocity + acceleration * dt;//px/s + (px/s/s * s)
 
+        //draw circle and lines showing velocity and acceleration
         DrawCircleV(position, 50, BLUE);
+        DrawLineV(position, position + velocity, RED);
+        DrawLineV(position, position + acceleration, GREEN);
 
+        DrawCircleV(GetMousePosition(), 50, BLACK);
+
+        position = WrapAroundScreen(position);
         EndDrawing();
     }
 
