@@ -60,7 +60,7 @@ int main(void)
     SetTargetFPS(144);
 
     rlImGuiSetup(true); // Sets up imgui
-
+   
     Vector2 position{ 100,100 };
     Vector2 targetPosition;
     Vector2 velocity = { 10.0, 0.0 };
