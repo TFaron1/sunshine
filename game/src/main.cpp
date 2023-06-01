@@ -48,7 +48,7 @@ int main(void)
 
         //draw circle and lines showing velocity and acceleration
         DrawCircleV(position, 50, BLUE);
-        DrawLineV(position, mousePos + velocity, RED);
+        DrawLineV(position, position + velocity, RED);
         DrawLineV(position, position + acceleration, GREEN);
 
 
