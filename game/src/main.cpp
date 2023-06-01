@@ -19,11 +19,15 @@ int main(void)
     SetTargetFPS(60);
     rlImGuiSetup(true);
 
+    Vector2 position2 = GetMousePosition();
+    
     Vector2 position = { 100, 100 };//px
     Vector2 velocity = { 10, 0 };//px/s
     Vector2 acceleration = { 0, 50 };//px/s/s
     float maxSpeed = 1000;
     float maxAccel = 1000;
+    Vector2 toTarget = {position2.x - position.x,position2.y - position.y};
+   
 
     while (!WindowShouldClose())
     {
@@ -39,20 +43,22 @@ int main(void)
         ImGui::DragFloat2("velocity", &(velocity.x),1,-maxSpeed, maxSpeed);
         ImGui::DragFloat2("acceleration", &(acceleration.x),1,-maxAccel,maxAccel);
         rlImGuiEnd();// end with this when making imgui windows appear
-
+     
         //update kinematics sim
         Vector2 displacement = velocity * dt;//px/s * s= px
         position = position + displacement + acceleration * 0.5 * dt * dt;
         velocity = velocity + acceleration * dt;//px/s + (px/s/s * s)
-        Vector2 mousePos = GetMousePosition();
-
+        Vector2 toTarget = { position2.x - position.x,position2.y - position.y };
         //draw circle and lines showing velocity and acceleration
         DrawCircleV(position, 50, BLUE);
         DrawLineV(position, position + velocity, RED);
-        DrawLineV(position, position + acceleration, GREEN);
+        DrawLineV(toTarget, position + acceleration, GREEN);
+         position2 = GetMousePosition();
 
+     
+        DrawCircleV(position2, 50, BLACK);
 
-        DrawCircleV(mousePos, 50, BLACK);
+       
 
         position = WrapAroundScreen(position);
         EndDrawing();
