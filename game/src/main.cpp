@@ -45,18 +45,30 @@ int main(void)
         rlImGuiEnd();// end with this when making imgui windows appear
         Vector2 position2 = GetMousePosition();
         //update kinematics sim
+
         Vector2 displacement = velocity * dt;//px/s * s= px
         position = position + displacement + acceleration * 0.5 * dt * dt;
         velocity = velocity + acceleration * dt;//px/s + (px/s/s * s)
-        Vector2 toTarget = { position2.x - position.x,position2.y - position.y };
+        acceleration = Normalize(position2 - position) * 500 - velocity;
+
+        if (IsKeyDown(KEY_A))
+        {
+            acceleration = Negate(Normalize(position2 - position) * 500 - velocity);
+            
+        }
+        Vector2 center = { SCREEN_WIDTH/2,SCREEN_HEIGHT/2 };
         //draw circle and lines showing velocity and acceleration
         DrawCircleV(position, 50, BLUE);
+        DrawCircleV(position2, 50, BLACK);
+        DrawCircleV(center, 50, PINK);
+
         DrawLineV(position, position + velocity, RED);
         DrawLineV(position, position + acceleration, GREEN);
         DrawLineV(position, position + (position2 - position) * 150, BLACK);
      
-        DrawCircleV(position2, 50, BLACK);
 
+        
+        
        
 
         position = WrapAroundScreen(position);
