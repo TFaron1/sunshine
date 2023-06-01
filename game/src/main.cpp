@@ -19,7 +19,7 @@ int main(void)
     SetTargetFPS(60);
     rlImGuiSetup(true);
 
-   
+    Vector2 center = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
     
     Vector2 position = { 100, 100 };//px
     Vector2 velocity = { 10, 0 };//px/s
@@ -50,13 +50,15 @@ int main(void)
         position = position + displacement + acceleration * 0.5 * dt * dt;
         velocity = velocity + acceleration * dt;//px/s + (px/s/s * s)
         acceleration = Normalize(position2 - position) * 500 - velocity;
-
+       
         if (IsKeyDown(KEY_A))
         {
             acceleration = Negate(Normalize(position2 - position) * 500 - velocity);
             
         }
-        Vector2 center = { SCREEN_WIDTH/2,SCREEN_HEIGHT/2 };
+        
+        acceleration = Negate(Normalize(position - center) * 500 - velocity);
+
         //draw circle and lines showing velocity and acceleration
         DrawCircleV(position, 50, BLUE);
         DrawCircleV(position2, 50, BLACK);
