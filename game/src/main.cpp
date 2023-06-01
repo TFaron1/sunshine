@@ -1,5 +1,6 @@
 #include "rlImGui.h"
 #include "Math.h"
+#include<vector>
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
@@ -15,11 +16,12 @@ Vector2 WraparoundScreen(Vector2 position)
 }
 
 
-class Rigidbody
+class Ridgidbody
 {
 public:
     Vector2 position;
     Vector2 velocity;
+    Vector2 mousePosition;
 };
 
 // Sprite class
@@ -40,32 +42,31 @@ public:
 class Agent
 {
 public:
-    Rigidbody rigidbody;
+    Ridgidbody ridgidbody;
     Sprite sprite;
     float maxSpeed;
     float maxAcceleration;
 };
 
-//Vector2 flee(const Vector2& agentPosition, const Vector2& agentVelocity, const Vector2& targetPosition, float maxAcceleration)
-//{
-//    Vector2 desiredVelocity = Normalize(agentPosition - targetPosition) * maxAcceleration;
-//    Vector2 steer = desiredVelocity - agentVelocity;
-//    return steer;
-//}
 
 
 int main(void)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sunshine");
     SetTargetFPS(144);
-
+    bool collision = false;
+    std::vector<Agent> agents;
+    Agent agent;
+    agent.ridgidbody.position = { 400, 225 };
+    agent.ridgidbody.velocity = { 10, 0 };
+    agent.maxSpeed = 400.0f;
+    agent.maxAcceleration = 800.0f;
+    Ridgidbody circleA = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
     rlImGuiSetup(true); // Sets up imgui
-   
-    Vector2 position{ 100,100 };
-    Vector2 targetPosition;
-    Vector2 velocity = { 10.0, 0.0 };
+    Ridgidbody ridgidbody;
+    ridgidbody.mousePosition = GetMousePosition();
+
     Vector2 acceleration = { 10.0f, 0.0f };
-    //Vector2 displacementPositionTarget = position- targetPosition;
     float speed = 500;
     float maxSpeed = 1000;
     float maxAccel = 1000;
@@ -81,69 +82,52 @@ int main(void)
         {
             rlImGuiBegin();
 
-            ImGui::DragFloat2("Position", &(position.x), 0, SCREEN_WIDTH);
-            ImGui::DragFloat2("Velocity", &(velocity.x), -maxSpeed, maxSpeed);
+            ImGui::DragFloat2("Position", &(ridgidbody.position.x), 0, SCREEN_WIDTH);
+            ImGui::DragFloat2("Velocity", &(agent.ridgidbody.velocity.x), -maxSpeed, maxSpeed);
             ImGui::DragFloat2("Acceleration", &(acceleration.x), 1, -maxAccel, maxAccel);
 
             rlImGuiEnd();
         }
 
-        targetPosition = GetMousePosition();
+        ridgidbody.mousePosition = GetMousePosition();
         HideCursor();
 
-
-
-        //Vector2 displacement = velocity * deltaTime;
-        //position = position + displacement;
-
-        //Vector2 deltaV = acceleration * deltaTime;
-        //velocity = velocity + deltaV;
-
-
-
-
-        Vector2 agentToTarget = targetPosition - position;
-
-        Vector2 directionToTarget = Normalize(agentToTarget);
-
-
-        acceleration = directionToTarget *maxAccel; 
-
-
-
-
-            position = position + velocity* deltaTime + acceleration * deltaTime * deltaTime * 0.5f;
-        velocity = velocity + acceleration * deltaTime;
+        ridgidbody.position = ridgidbody.position + agent.ridgidbody.velocity * deltaTime + acceleration * deltaTime * deltaTime * 0.5f;
+        agent.ridgidbody.velocity = agent.ridgidbody.velocity + acceleration * deltaTime;
 
         if (IsMouseButtonUp(MOUSE_LEFT_BUTTON))
         {
-            acceleration = Normalize(targetPosition - position) * speed - velocity;
+            acceleration = Normalize(ridgidbody.mousePosition - ridgidbody.position) * speed - agent.ridgidbody.velocity;
         }
         else
         {
-            acceleration = Normalize(position - targetPosition) * speed - velocity;
+            acceleration = Normalize(ridgidbody.position - ridgidbody.mousePosition) * speed - agent.ridgidbody.velocity;
+        }
+
+        if (CheckCollisionCircles(circleA.position, 65, ridgidbody.position, 65))
+        {
+            acceleration = Normalize(ridgidbody.position - circleA.position) * speed - agent.ridgidbody.velocity;
         }
 
 
+        ridgidbody.position = WraparoundScreen(ridgidbody.position);
 
 
-        //acceleration = { 0,0 };
-        position = WraparoundScreen(position);
+        DrawCircleV(ridgidbody.position, 50, BLUE);
+        DrawCircleV(circleA.position, 50, RED);
+        DrawCircleGradient(ridgidbody.mousePosition.x, ridgidbody.mousePosition.y, 50, LIGHTGRAY, BLACK);
+
+
+
+        DrawLineV(ridgidbody.position, ridgidbody.position + agent.ridgidbody.velocity, RED);
+        DrawLineV(ridgidbody.position, ridgidbody.position + acceleration, GREEN);
+        DrawLineV(ridgidbody.position, ridgidbody.position + (ridgidbody.mousePosition - ridgidbody.position) * 150, ORANGE);
+
 
 
 
 
         DrawText("Hello World!", 16, 9, 20, RED);
-
-        DrawCircleV(position, 50, BLUE);
-        DrawCircleGradient(targetPosition.x, targetPosition.y, 50, LIGHTGRAY, BLACK);
-
-        DrawLineV(position, position + velocity, RED);
-        DrawLineV(position, position + acceleration, GREEN);
-        DrawLineV(position, position + (targetPosition - position) * 150, ORANGE);
-
-
-
         DrawFPS(1200, 10);
 
         EndDrawing();
