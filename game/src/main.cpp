@@ -57,7 +57,7 @@ int main(void)
             
         }
         
-        acceleration = Negate(Normalize(position - center) * 500 - velocity);
+        //acceleration = Negate(Normalize(position - center) * 500 - velocity);
 
         //draw circle and lines showing velocity and acceleration
         DrawCircleV(position, 50, BLUE);
