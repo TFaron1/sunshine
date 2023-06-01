@@ -44,13 +44,15 @@ int main(void)
         Vector2 displacement = velocity * dt;//px/s * s= px
         position = position + displacement + acceleration * 0.5 * dt * dt;
         velocity = velocity + acceleration * dt;//px/s + (px/s/s * s)
+        Vector2 mousePos = GetMousePosition();
 
         //draw circle and lines showing velocity and acceleration
         DrawCircleV(position, 50, BLUE);
-        DrawLineV(position, position + velocity, RED);
+        DrawLineV(position, mousePos + velocity, RED);
         DrawLineV(position, position + acceleration, GREEN);
 
-        DrawCircleV(GetMousePosition(), 50, BLACK);
+
+        DrawCircleV(mousePos, 50, BLACK);
 
         position = WrapAroundScreen(position);
         EndDrawing();
