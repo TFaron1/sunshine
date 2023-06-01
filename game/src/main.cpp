@@ -123,8 +123,10 @@ int main(void)
         DrawLineV(ridgidbody.position, ridgidbody.position + acceleration, GREEN);
         DrawLineV(ridgidbody.position, ridgidbody.position + (ridgidbody.mousePosition - ridgidbody.position) * 150, ORANGE);
 
-
-
+       
+        
+        DrawLineV(circleA.position, circleA.position + (ridgidbody.mousePosition - circleA.position) * 1, BLACK);
+        DrawLineV(circleA.position, circleA.position + ridgidbody.mousePosition + 200, BLACK);
 
 
         DrawText("Hello World!", 16, 9, 20, RED);
