@@ -20,6 +20,7 @@ int main(void)
     rlImGuiSetup(true);
 
     Vector2 center = { SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 };
+
     
     Vector2 position = { 100, 100 };//px
     Vector2 velocity = { 10, 0 };//px/s
@@ -57,18 +58,22 @@ int main(void)
             
         }
         
-        //acceleration = Negate(Normalize(position - center) * 500 - velocity);
+       // acceleration = Negate(Normalize(position - center) * 500 - velocity);
 
         //draw circle and lines showing velocity and acceleration
+        DrawCircleV(center, 100, RAYWHITE);
+        DrawCircleV(center, 50, PINK);
         DrawCircleV(position, 50, BLUE);
         DrawCircleV(position2, 50, BLACK);
-        DrawCircleV(center, 50, PINK);
 
         DrawLineV(position, position + velocity, RED);
         DrawLineV(position, position + acceleration, GREEN);
         DrawLineV(position, position + (position2 - position) * 150, BLACK);
      
-
+       if(CheckCollisionCircles(center, 100, position, 50) == true)
+        {
+           acceleration = Negate(Normalize(center - position) * 500 - velocity);
+        }
         
         
        
