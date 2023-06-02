@@ -58,7 +58,7 @@ int main(void)
             
         }
         
-       // acceleration = Negate(Normalize(position - center) * 500 - velocity);
+   
 
         //draw circle and lines showing velocity and acceleration
         DrawCircleV(center, 100, RAYWHITE);
@@ -70,7 +70,7 @@ int main(void)
         DrawLineV(position, position + acceleration, GREEN);
         DrawLineV(position, position + (position2 - position) * 150, BLACK);
      
-       if(CheckCollisionCircles(center, 100, position, 50) == true)
+       if(CheckCollisionCircles(center, 100, position, 50) == true)//if the circle reaches a radius close to the center cicle if will call flee
         {
            acceleration = Negate(Normalize(center - position) * 500 - velocity);
         }
