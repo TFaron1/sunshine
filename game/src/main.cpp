@@ -75,11 +75,8 @@ int main(void)
         DrawLineV(center, center + deg30 * 100, GREEN);
 
         c = c + deg30 + acceleration * 0.5 * dt * dt;
-     
-        if (c.x && c.y > center.x + deg30.x * 100 && center.y + deg30.y * 100)
-        {
-            DrawText("collision", 100, 100, 20, BLACK);
-        }
+        
+
 
         DrawCircleV(c + deg30, 10, ORANGE);
         DrawLineV(c + deg30, c + deg30 + (position2 -c + deg30  ) * 150, BLACK);//c tracks mouse
