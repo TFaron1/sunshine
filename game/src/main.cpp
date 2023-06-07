@@ -52,7 +52,7 @@ int main(void)
         velocity = velocity + acceleration * dt;//px/s + (px/s/s * s)
         acceleration = Normalize(position2 - position) * 500 - velocity;
        
-        if (IsKeyDown(KEY_A))
+        if (IsKeyDown(KEY_A))//flee
         {
             acceleration = Negate(Normalize(position2 - position) * 500 - velocity);
             
@@ -61,10 +61,10 @@ int main(void)
    
 
         //draw circle and lines showing velocity and acceleration
-        DrawCircleV(center, 100, RAYWHITE);
-        DrawCircleV(center, 50, PINK);
-        DrawCircleV(position, 50, BLUE);
-        DrawCircleV(position2, 50, BLACK);
+        DrawCircleV(center, 100, RAYWHITE);//flee radius
+        DrawCircleV(center, 50, PINK);//center circle
+        DrawCircleV(position, 50, BLUE);//seek circle
+        DrawCircleV(position2, 50, BLACK);//mouse cicle
 
         DrawLineV(position, position + velocity, RED);
         DrawLineV(position, position + acceleration, GREEN);
