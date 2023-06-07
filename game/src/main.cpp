@@ -58,17 +58,24 @@ int main(void)
             
         }
         
-   
+        Vector2 deg45 = Normalize(Vector2{ 1, -1 });
+        Vector2 deg30 = Rotate(deg45, -30 * DEG2RAD);//draws the 30 deg line
+    
 
         //draw circle and lines showing velocity and acceleration
         DrawCircleV(center, 100, RAYWHITE);//flee radius
         DrawCircleV(center, 50, PINK);//center circle
         DrawCircleV(position, 50, BLUE);//seek circle
         DrawCircleV(position2, 50, BLACK);//mouse cicle
+        
+       // DrawLineV(center, center + 100, BLACK);
+        DrawLineV(center, center + deg45 * 100, RED);
+        DrawLineV(center, center + deg30 * 100, GREEN);
 
+        DrawLineV(position, position + 100, BLACK);
         DrawLineV(position, position + velocity, RED);
-        DrawLineV(position, position + acceleration, GREEN);
-        DrawLineV(position, position + (position2 - position) * 150, BLACK);
+       // DrawLineV(position, position + acceleration, GREEN);
+       // DrawLineV(position, position + (position2 - position) , BLACK);
      
        if(CheckCollisionCircles(center, 100, position, 50) == true)//if the circle reaches a radius close to the center cicle if will call flee
         {
