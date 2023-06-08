@@ -13,6 +13,13 @@ Vector2 WrapAroundScreen(Vector2 position)
     return outPosition;
 }
 
+// Checks if a line segment intersects with a circle, which is used later to detect collisions between the seeker and an obstacle.
+bool CheckCollisionLineCircle(Vector2 lineStart, Vector2 lineEnd, Vector2 circlePosition, float circleRadius)
+{
+    Vector2 nearest = NearestPoint(lineStart, lineEnd, circlePosition);
+    return DistanceSqr(nearest, circlePosition) <= circleRadius * circleRadius;
+}
+
 int main(void)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sunshine");
@@ -78,16 +85,22 @@ int main(void)
         
 
 
-        DrawCircleV(c + deg30, 10, ORANGE);
-        DrawLineV(c + deg30, c + deg30 + (position2 -c + deg30  ) * 150, BLACK);//c tracks mouse
-        if (CheckCollisionCircles(c + deg30, 10, position2,  50))
+      //  DrawCircleV(c + deg30, 10, ORANGE);
+      //  DrawLineV(c + deg30, c + deg30 + (position2 -c + deg30  ) * 150, BLACK);//c tracks mouse
+  
+       if( CheckCollisionLineCircle(center, center + deg30 * 100, position2, 50))
         {
-            DrawText("collision", 100, 100, 20, BLACK);
-        }
+           DrawText("collision", 100, 100, 20, BLACK);
+       }
 
+       if (CheckCollisionLineCircle(center, center + deg45 * 100, position2, 50))
+       {
+           DrawText("collision", 100, 100, 20, BLACK);
+       }
+     
 
-        DrawLineV(position, position + 100, BLACK);
-        DrawLineV(position, position + velocity, RED);
+       // DrawLineV(position, position + 100, BLACK);
+       // DrawLineV(position, position + velocity, RED);
        // DrawLineV(position, position + acceleration, GREEN);
        // DrawLineV(position, position + (position2 - position) , BLACK);
      
