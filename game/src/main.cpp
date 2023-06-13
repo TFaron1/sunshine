@@ -58,7 +58,7 @@ int main(void)
     Color lineColor = GREEN;
 
     Mode mode;
-   
+
     std::vector<Food> AllFood;
     std::vector<Pred> AllPred;
 
@@ -110,9 +110,9 @@ int main(void)
             if (key == 0)
             {
                 DrawText("Mode 0: nothing", 16, 9, 20, RED);
-               
+
             }
-           
+
         }
 
         case SEEK:
@@ -123,10 +123,10 @@ int main(void)
 
                 if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
                 {
-                acceleration = Normalize(GetMousePosition() - position) * 500 - velocity;
+                    acceleration = Normalize(GetMousePosition() - position) * 500 - velocity;
                 }
             }
- 
+
         }
         case FLEE:
         {
@@ -141,12 +141,9 @@ int main(void)
                     pred.radius = 10.0;
                     AllPred.push_back(pred);
                 }
-                if (IsMouseButtonDown(0))
-                {
-              //  acceleration = Negate(Normalize(GetMousePosition() - position) * 500 - velocity);
-                }
+
             }
-  
+
         }
 
         case ARRIVE:
@@ -164,37 +161,39 @@ int main(void)
                     AllFood.push_back(food);
                 }
             }
-    
+
         }
 
         }
-                Vector2 Whisker1 = Normalize(Vector2{ 1, -1 });
-                Vector2 Whisker2 = Rotate(Whisker1, -30 * DEG2RAD);
-     
-                for (const Food& food : AllFood)
-                {
-                    DrawCircle(food.Position.x, food.Position.y, food.radius, BLUE);//draws food
-                }
-                
-                for (const Pred& pred : AllPred)
-                {
-                    DrawCircle(pred.position.x, pred.position.y, pred.radius, RED);//draws predators
-                    
-                    if (CheckCollisionLineCircle(position,position + Whisker1 * 100, pred.position, 10) == true ||
-                        CheckCollisionLineCircle(position, position + Whisker2 * 100, pred.position, 10) == true)
-                    {
-                        acceleration = Negate(Normalize(GetMousePosition() - position) * 100 - velocity);
-                        lineColor = RED;
-                        
-                    }
+        Vector2 Whisker1 = Normalize(Vector2{ 1, -1 });
+        Vector2 Whisker2 = Rotate(Whisker1, -30 * DEG2RAD);
 
-                    else
-                    {
-                        lineColor = GREEN;
-                    }
-                }
+        for (const Food& food : AllFood)
+        {
+            DrawCircle(food.Position.x, food.Position.y, food.radius, BLUE);//draws food
+        }
+
+        for (const Pred& pred : AllPred)
+        {
+            DrawCircle(pred.position.x, pred.position.y, pred.radius, RED);//draws predators
+
+            if (CheckCollisionLineCircle(position, position + Whisker1 * 100, pred.position, 10) == true ||
+                CheckCollisionLineCircle(position, position + Whisker2 * 100, pred.position, 10) == true)
+            {
+                Rotate(position + Whisker1 * 100, 20);
+                // acceleration = Negate(Normalize(GetMousePosition() - position) * 100 - velocity);
+                lineColor = RED;
+
+            }
+
+            else
+            {
+                lineColor = GREEN;
+            }
+        }
 
         DrawCircleV(position, 50, BLACK);
+    Rotate(Whisker1, 90);
 
         DrawLineV(position, position + Whisker1 * 100, lineColor);
         DrawLineV(position, position + Whisker2 * 100, lineColor);
@@ -202,7 +201,7 @@ int main(void)
         position = WrapAroundScreen(position);
         EndDrawing();
     }
-
+    
     CloseWindow();
     return 0;
 
