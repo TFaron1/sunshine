@@ -19,6 +19,7 @@ int main(void)
     SetTargetFPS(60);
     rlImGuiSetup(true);
 
+
     Vector2 position = { 100, 100 };//px
     Vector2 velocity = { 10, 0 };//px/s
     Vector2 acceleration = { 0, 50 };//px/s/s
@@ -27,14 +28,25 @@ int main(void)
 
     while (!WindowShouldClose())
     {
+        const float dt = GetFrameTime();
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawText("Hello World!", 16, 9, 20, RED);
        
         rlImGuiBegin();
-       
+        ImGui::SliderFloat2("position", &(position.x), 0, SCREEN_WIDTH);
+        ImGui::DragFloat2("velocity", &(velocity.x), 1, -maxSpeed, maxSpeed);
+        ImGui::DragFloat2("acceleration", &(acceleration.x), 1, -maxAccel, maxAccel);
         rlImGuiEnd();
 
+        Vector2 displacement = velocity * dt;
+        position = position + displacement + acceleration * 0.5 * dt * dt;
+        velocity = velocity + acceleration * dt;
+        velocity = velocity + acceleration * dt;
+       
+        DrawCircleV(position, 50, RED);
+
+       position = WrapAroundScreen(position);
         EndDrawing();
     }
 
