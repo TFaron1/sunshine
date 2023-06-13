@@ -134,14 +134,7 @@ int main(void)
             if (key == 0)
             {
                 DrawText("Mode 0: nothing", 16, 9, 20, RED);
-                if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
-                {
-                    Food food;
-                    food.Position = GetMousePosition();
-                    food.radius = 10.0;
-                   // food.Draw(GetMousePosition());
-                    AllFood.push_back(food);
-                }
+               
             }
            
         }
@@ -151,7 +144,11 @@ int main(void)
             if (key == 1)
             {
                 DrawText("Mode 1: seek", 16, 9, 20, RED);
+
+                if (IsMouseButtonDown(0))
+                {
                 acceleration = Normalize(GetMousePosition() - position) * 500 - velocity;
+                }
             }
  
         }
@@ -160,7 +157,10 @@ int main(void)
             if (key == 2)
             {
                 DrawText("Mode 2: Flee", 16, 9, 20, RED);
+                if (IsMouseButtonDown(0))
+                {
                 acceleration = Negate(Normalize(GetMousePosition() - position) * 500 - velocity);
+                }
             }
   
         }
@@ -170,6 +170,15 @@ int main(void)
             if (key == 3)
             {
                 DrawText("Mode 3: arrive", 16, 9, 20, RED);
+
+                if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+                {
+                    Food food;
+                    food.Position = GetMousePosition();
+                    food.radius = 10.0;
+                    // food.Draw(GetMousePosition());
+                    AllFood.push_back(food);
+                }
             }
     
         }
