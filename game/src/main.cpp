@@ -56,6 +56,12 @@ struct Food
 {
     Vector2 Position;
     float radius;
+};  
+
+struct Pred
+{
+    Vector2 position;
+    float radius;
 };
 
 
@@ -85,6 +91,7 @@ int main(void)
     Mode mode;
    
     std::vector<Food> AllFood;
+    std::vector<Pred> AllPred;
 
     int key = 0;
 
@@ -145,7 +152,7 @@ int main(void)
             {
                 DrawText("Mode 1: seek", 16, 9, 20, RED);
 
-                if (IsMouseButtonDown(0))
+                if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
                 {
                 acceleration = Normalize(GetMousePosition() - position) * 500 - velocity;
                 }
@@ -157,9 +164,17 @@ int main(void)
             if (key == 2)
             {
                 DrawText("Mode 2: Flee", 16, 9, 20, RED);
+
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+                {
+                    Pred pred;
+                    pred.position = GetMousePosition();
+                    pred.radius = 10.0;
+                    AllPred.push_back(pred);
+                }
                 if (IsMouseButtonDown(0))
                 {
-                acceleration = Negate(Normalize(GetMousePosition() - position) * 500 - velocity);
+              //  acceleration = Negate(Normalize(GetMousePosition() - position) * 500 - velocity);
                 }
             }
   
@@ -187,11 +202,20 @@ int main(void)
      
                 for (const Food& food : AllFood)
                 {
-                    DrawCircle(food.Position.x, food.Position.y, food.radius, BLUE);
+                    DrawCircle(food.Position.x, food.Position.y, food.radius, BLUE);//draws food
                 }
-            
+                
+                for (const Pred& pred : AllPred)
+                {
+                    DrawCircle(pred.position.x, pred.position.y, pred.radius, RED);//draws predators
+                    if (CheckCollisionCircles(pred.position, 10, position, 10))
+                    {
+                        acceleration = Negate(Normalize(GetMousePosition() - position) * 500 - velocity);
+                     }
+                }
 
-        DrawCircleV(position, 50, RED);
+
+        DrawCircleV(position, 50, BLACK);
 
         position = WrapAroundScreen(position);
         EndDrawing();
