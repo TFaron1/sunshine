@@ -175,9 +175,7 @@ int main(void)
         }
 
         }
-
-       
-           
+     
                 for (const Food& food : AllFood)
                 {
                     DrawCircle(food.Position.x, food.Position.y, food.radius, BLUE);
