@@ -208,14 +208,19 @@ int main(void)
                 for (const Pred& pred : AllPred)
                 {
                     DrawCircle(pred.position.x, pred.position.y, pred.radius, RED);//draws predators
+                    
                     if (CheckCollisionCircles(pred.position, 10, position, 10))
                     {
                         acceleration = Negate(Normalize(GetMousePosition() - position) * 500 - velocity);
-                     }
+                    }
                 }
-
+                Vector2 deg45 = Normalize(Vector2{ 1, -1 });
+                Vector2 deg30 = Rotate(deg45, -30 * DEG2RAD);
 
         DrawCircleV(position, 50, BLACK);
+
+        DrawLineV(position, position + deg45 * 100, GREEN);
+        DrawLineV(position, position + deg30 * 100, GREEN);
 
         position = WrapAroundScreen(position);
         EndDrawing();
