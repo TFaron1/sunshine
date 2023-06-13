@@ -19,6 +19,12 @@ int main(void)
     SetTargetFPS(60);
     rlImGuiSetup(true);
 
+    Vector2 position = { 100, 100 };//px
+    Vector2 velocity = { 10, 0 };//px/s
+    Vector2 acceleration = { 0, 50 };//px/s/s
+    float maxSpeed = 1000;
+    float maxAccel = 1000;
+
     while (!WindowShouldClose())
     {
         BeginDrawing();
@@ -26,7 +32,7 @@ int main(void)
         DrawText("Hello World!", 16, 9, 20, RED);
        
         rlImGuiBegin();
-        
+       
         rlImGuiEnd();
 
         EndDrawing();
