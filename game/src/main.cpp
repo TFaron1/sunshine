@@ -12,45 +12,12 @@ enum Mode
     ARRIVE
 };
 
-//class Food
-//{
-//private: 
-//    int foodHp;
-//    int eatSpeed;
-//    bool isAte = false;
-//public:
-//    Food(int foodHp, int eatSpeed, bool isAte, Vector2 position)
-//    {
-//        this->foodHp = foodHp;
-//        this->eatSpeed = eatSpeed;
-//        this->isAte = isAte;
-//        position = GetMousePosition();
-//    }
-//    
-//    void Position()
-//    {
-//
-//    }
-//
-//    void Draw(Vector2 position)
-//    {
-//        DrawCircleV(position, 10, BLUE);
-//    }
-//
-//    bool IsEating()
-//    {
-//        foodHp = 1;
-//        foodHp -= eatSpeed;
-//
-//        if (foodHp = 0)
-//        {
-//          
-//            return true;
-//        }
-//        return false;
-//    }
-//   
-//};
+
+bool CheckCollisionLineCircle(Vector2 lineStart, Vector2 lineEnd, Vector2 circlePosition, float circleRadius)
+{
+    Vector2 nearest = NearestPoint(lineStart, lineEnd, circlePosition);
+    return DistanceSqr(nearest, circlePosition) <= circleRadius * circleRadius;
+}
 
 struct Food
 {
@@ -87,6 +54,8 @@ int main(void)
     Vector2 acceleration = { 0, 50 };//px/s/s
     float maxSpeed = 1000;
     float maxAccel = 1000;
+
+    Color lineColor = GREEN;
 
     Mode mode;
    
@@ -199,6 +168,8 @@ int main(void)
         }
 
         }
+                Vector2 Whisker1 = Normalize(Vector2{ 1, -1 });
+                Vector2 Whisker2 = Rotate(Whisker1, -30 * DEG2RAD);
      
                 for (const Food& food : AllFood)
                 {
@@ -209,18 +180,24 @@ int main(void)
                 {
                     DrawCircle(pred.position.x, pred.position.y, pred.radius, RED);//draws predators
                     
-                    if (CheckCollisionCircles(pred.position, 10, position, 10))
+                    if (CheckCollisionLineCircle(position,position + Whisker1 * 100, pred.position, 10) == true ||
+                        CheckCollisionLineCircle(position, position + Whisker2 * 100, pred.position, 10) == true)
                     {
-                        acceleration = Negate(Normalize(GetMousePosition() - position) * 500 - velocity);
+                        acceleration = Negate(Normalize(GetMousePosition() - position) * 100 - velocity);
+                        lineColor = RED;
+                        
+                    }
+
+                    else
+                    {
+                        lineColor = GREEN;
                     }
                 }
-                Vector2 deg45 = Normalize(Vector2{ 1, -1 });
-                Vector2 deg30 = Rotate(deg45, -30 * DEG2RAD);
 
         DrawCircleV(position, 50, BLACK);
 
-        DrawLineV(position, position + deg45 * 100, GREEN);
-        DrawLineV(position, position + deg30 * 100, GREEN);
+        DrawLineV(position, position + Whisker1 * 100, lineColor);
+        DrawLineV(position, position + Whisker2 * 100, lineColor);
 
         position = WrapAroundScreen(position);
         EndDrawing();
