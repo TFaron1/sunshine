@@ -58,8 +58,9 @@ int main(void)
 
         if (IsMouseButtonDown(1))
         {
-            acceleration = Negate(Normalize(position - place) * 500 - velocity);
+            acceleration = Negate(Normalize(place - position) * 500 - velocity);
         }
+
         DrawCircleV(position, 50, RED);
 
        position = WrapAroundScreen(position);
