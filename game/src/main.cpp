@@ -4,6 +4,14 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
+enum Mode
+{
+    NONE,
+    SEEK,
+    FLEE,
+    ARRIVE
+};
+
 class Food
 {
 private: 
@@ -11,27 +19,30 @@ private:
     int eatSpeed;
     bool isAte = false;
 public:
-    Food(int foodHp, int eatSpeed, bool isAte)
+    Food(int foodHp, int eatSpeed, bool isAte, Vector2 position)
     {
         this->foodHp = foodHp;
         this->eatSpeed = eatSpeed;
         this->isAte = isAte;
+        position = GetMousePosition();
     }
     
-    Vector2 Draw(Vector2 position)
+    void Draw(Vector2 position)
     {
         DrawCircleV(position, 10, BLUE);
     }
 
-    void Eating()
+    bool IsEating()
     {
-       
+        foodHp = 1;
         foodHp -= eatSpeed;
 
         if (foodHp = 0)
         {
-            isAte = true;
+          
+            return true;
         }
+        return false;
     }
    
 };
@@ -60,12 +71,19 @@ int main(void)
     float maxSpeed = 1000;
     float maxAccel = 1000;
    
+    Mode mode;
+        Food food(100, 10, false,GetMousePosition());
+        std::vector<Food*> AllFood;
+
+        int i = 0;
+
     while (!WindowShouldClose())
     {
         const float dt = GetFrameTime();
+
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawText("Mode 1: food", 16, 9, 20, RED);
+        
        
         rlImGuiBegin();
         ImGui::SliderFloat2("position", &(position.x), 0, SCREEN_WIDTH);
@@ -74,14 +92,80 @@ int main(void)
         rlImGuiEnd();
 
         
-       
         
         Vector2 displacement = velocity * dt;
         position = position + displacement + acceleration * 0.5 * dt * dt;
         velocity = velocity + acceleration * dt;
         velocity = velocity + acceleration * dt;
-       // acceleration = Normalize(place - position) * 500 - velocity;
+        //acceleration = Normalize(place - position) * 500 - velocity;
+        
+        if (IsKeyPressed(KEY_ZERO))
+        {
+            i = 0;
+        }
 
+        if (IsKeyPressed(KEY_ONE))
+        {
+            i = 1;
+        }
+
+        if (IsKeyPressed(KEY_TWO))
+        {
+            i = 2;
+        }
+
+        if (IsKeyPressed(KEY_THREE))
+        {
+            i = 3;
+        }
+
+        switch (mode = NONE)
+        {
+
+        case NONE:
+            {
+            if (i == 0)
+        {
+            DrawText("Mode 0: nothing", 16, 9, 20, RED);
+
+        }
+            }
+     
+        case SEEK:
+        {
+        if (i == 1)
+        {
+            DrawText("Mode 1: seek", 16, 9, 20, RED);
+        }
+
+        }
+        case FLEE:
+        {
+            if (i == 2)
+            {
+                DrawText("Mode 2: Flee", 16, 9, 20, RED);
+            }
+        }
+
+        case ARRIVE:
+        {
+            if (i == 3)
+            {
+                DrawText("Mode 3: arrive", 16, 9, 20, RED);
+            }
+        }
+
+        }
+
+           
+
+        if (IsMouseButtonPressed(0) && food.IsEating() == false)
+        {
+
+            food.Draw(GetMousePosition());
+        }
+        
+        
 
         if (IsMouseButtonDown(1))
         {
