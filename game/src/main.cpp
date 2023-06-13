@@ -4,6 +4,38 @@
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
+class Food
+{
+private: 
+    int foodHp;
+    int eatSpeed;
+    bool isAte = false;
+public:
+    Food(int foodHp, int eatSpeed, bool isAte)
+    {
+        this->foodHp = foodHp;
+        this->eatSpeed = eatSpeed;
+        this->isAte = isAte;
+    }
+    
+    Vector2 Draw(Vector2 position)
+    {
+        DrawCircleV(position, 10, BLUE);
+    }
+
+    void Eating()
+    {
+       
+        foodHp -= eatSpeed;
+
+        if (foodHp = 0)
+        {
+            isAte = true;
+        }
+    }
+   
+};
+
 
 Vector2 WrapAroundScreen(Vector2 position)
 {
@@ -42,23 +74,18 @@ int main(void)
         rlImGuiEnd();
 
         
-        Vector2 place = GetMousePosition();
-
-        if (IsMouseButtonPressed(0))
-        {
-            DrawCircleV(place, 10, BLUE);
-        }
+       
         
         Vector2 displacement = velocity * dt;
         position = position + displacement + acceleration * 0.5 * dt * dt;
         velocity = velocity + acceleration * dt;
         velocity = velocity + acceleration * dt;
-        acceleration = Normalize(place - position) * 500 - velocity;
+       // acceleration = Normalize(place - position) * 500 - velocity;
 
 
         if (IsMouseButtonDown(1))
         {
-            acceleration = Negate(Normalize(place - position) * 500 - velocity);
+           // acceleration = Negate(Normalize(place - position) * 500 - velocity);
         }
 
         DrawCircleV(position, 50, RED);
