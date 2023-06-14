@@ -211,7 +211,7 @@ int main(void)
         {
             DrawCircle(pred.position.x, pred.position.y, pred.radius, RED);//draws predators
 
-            if (CheckCollisionCircles(position,50,pred.position,10))
+            if (CheckCollisionCircles(position,50,pred.position,20))
             {
                 acceleration = Negate(Normalize(pred.position - position) * speed - velocity);
             }
