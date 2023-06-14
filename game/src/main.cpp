@@ -193,7 +193,7 @@ int main(void)
         }
 
         DrawCircleV(position, 50, BLACK);
-    Rotate(Whisker1, 90);
+
 
         DrawLineV(position, position + Whisker1 * 100, lineColor);
         DrawLineV(position, position + Whisker2 * 100, lineColor);
