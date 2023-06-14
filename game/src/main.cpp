@@ -9,7 +9,8 @@ enum Mode
     NONE,
     SEEK,
     FLEE,
-    ARRIVE
+    ARRIVE,
+    ObstacleAvoid
 };
 
 
@@ -28,6 +29,12 @@ struct Food
 struct Pred
 {
     Vector2 position;
+    float radius;
+};
+
+struct Obstacle
+{
+    Vector2 Position;
     float radius;
 };
 
@@ -52,6 +59,8 @@ int main(void)
     Vector2 position = { 100, 100 };//px
     Vector2 velocity = { 10, 0 };//px/s
     Vector2 acceleration = { 0, 50 };//px/s/s
+
+    float speed = 500;
     float maxSpeed = 1000;
     float maxAccel = 1000;
 
@@ -61,6 +70,7 @@ int main(void)
 
     std::vector<Food> AllFood;
     std::vector<Pred> AllPred;
+    std::vector<Obstacle> AllObstacle;
 
     int key = 0;
 
@@ -102,6 +112,11 @@ int main(void)
             key = 3;
         }
 
+        if (IsKeyPressed(KEY_FOUR))
+        {
+            key = 4;
+        }
+
         switch (mode = NONE)
         {
 
@@ -123,7 +138,7 @@ int main(void)
 
                 if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
                 {
-                    acceleration = Normalize(GetMousePosition() - position) * 500 - velocity;
+                    acceleration = Normalize(GetMousePosition() - position) * speed - velocity;
                 }
             }
 
@@ -157,11 +172,25 @@ int main(void)
                     Food food;
                     food.Position = GetMousePosition();
                     food.radius = 10.0;
-                    // food.Draw(GetMousePosition());
                     AllFood.push_back(food);
                 }
             }
 
+        }
+        case ObstacleAvoid:
+        {
+            if (key == 4)
+            {
+                DrawText("Mode 4: obstacle", 16, 9, 20, RED);
+               
+                if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+                {
+                    Obstacle obstacle;
+                    obstacle.Position = GetMousePosition();
+                    obstacle.radius = 10.0;
+                    AllObstacle.push_back(obstacle);
+                }
+            }
         }
 
         }
@@ -171,6 +200,11 @@ int main(void)
         for (const Food& food : AllFood)
         {
             DrawCircle(food.Position.x, food.Position.y, food.radius, BLUE);//draws food
+            
+            if (CheckCollisionCircles(food.Position, 10, position, 50))
+            {
+              
+            }
         }
 
         for (const Pred& pred : AllPred)
@@ -180,18 +214,24 @@ int main(void)
             if (CheckCollisionLineCircle(position, position + Whisker1 * 100, pred.position, 10) == true ||
                 CheckCollisionLineCircle(position, position + Whisker2 * 100, pred.position, 10) == true)
             {
-                Rotate(position + Whisker1 * 100, 20);
-                // acceleration = Negate(Normalize(GetMousePosition() - position) * 100 - velocity);
+                
+                acceleration = Negate(Normalize(GetMousePosition() - position) * speed - velocity);
                 lineColor = RED;
 
             }
 
             else
             {
+
                 lineColor = GREEN;
             }
         }
 
+        for (const Obstacle& obstacle : AllObstacle)
+        {
+            DrawCircle(obstacle.Position.x, obstacle.Position.y, obstacle.radius, GRAY);//draws predators
+        }
+        
         DrawCircleV(position, 50, BLACK);
 
 
