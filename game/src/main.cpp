@@ -211,25 +211,29 @@ int main(void)
         {
             DrawCircle(pred.position.x, pred.position.y, pred.radius, RED);//draws predators
 
-            if (CheckCollisionLineCircle(position, position + Whisker1 * 100, pred.position, 10) == true ||
-                CheckCollisionLineCircle(position, position + Whisker2 * 100, pred.position, 10) == true)
+            if (CheckCollisionCircles(position,50,pred.position,10))
             {
-                
-                acceleration = Negate(Normalize(GetMousePosition() - position) * speed - velocity);
-                lineColor = RED;
-
-            }
-
-            else
-            {
-
-                lineColor = GREEN;
+                acceleration = Negate(Normalize(pred.position - position) * speed - velocity);
             }
         }
 
         for (const Obstacle& obstacle : AllObstacle)
         {
-            DrawCircle(obstacle.Position.x, obstacle.Position.y, obstacle.radius, GRAY);//draws predators
+            DrawCircle(obstacle.Position.x, obstacle.Position.y, obstacle.radius, GRAY);//draws obstacles
+
+            if (CheckCollisionLineCircle(position, position + Whisker1 * 100, obstacle.Position, 10) == true ||
+                CheckCollisionLineCircle(position, position + Whisker2 * 100, obstacle.Position, 10) == true)
+            {
+
+                acceleration = Negate(Normalize(obstacle.Position - position) * speed - velocity);
+                lineColor = RED;
+
+            }
+            else
+            {
+
+                lineColor = GREEN;
+            }
         }
         
         DrawCircleV(position, 50, BLACK);
