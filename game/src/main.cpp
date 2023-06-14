@@ -167,7 +167,7 @@ int main(void)
             {
                 DrawText("Mode 3: arrive", 16, 9, 20, RED);
 
-                if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                 {
                     Food food;
                     food.Position = GetMousePosition();
@@ -183,7 +183,7 @@ int main(void)
             {
                 DrawText("Mode 4: obstacle", 16, 9, 20, RED);
                
-                if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+                if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
                 {
                     Obstacle obstacle;
                     obstacle.Position = GetMousePosition();
