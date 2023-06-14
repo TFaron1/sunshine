@@ -234,8 +234,15 @@ int main(void)
 
                 lineColor = GREEN;
             }
+          
         }
-        
+       
+        if (IsKeyPressed(KEY_SPACE))
+        {//removes all obstacles, food and predators
+            AllObstacle.clear();
+            AllFood.clear();
+            AllPred.clear();
+        }
         DrawCircleV(position, 50, BLACK);
 
 
