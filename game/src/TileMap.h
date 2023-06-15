@@ -53,8 +53,8 @@ public:
 		{
 			for (int y = 0; y < GetHeight(); y++)
 			{
-				Vector2 position = ScreenPosOfTile({ x,y });
 				Tile tile = tiles[x][y];
+				Vector2 position = ScreenPosOfTile({ x,y });
 				Color color = WHITE;
 				if (tile == Floor) color = GREEN;
 				else if(tile == Wall) color = ORANGE;

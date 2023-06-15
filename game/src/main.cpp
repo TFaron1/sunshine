@@ -16,21 +16,25 @@ void RandomTiles(TileMap& level, float chanceOfWall = 0.2)
 
 			if (GetRandomValue(0.0, 1.0)  < chanceOfWall)
 			{
-				level.tiles[x][y] = Wall;
+				level.tiles[x][y] = Tile::Wall;
 			}
 			else 
 			{
-				level.tiles[x][y] = Floor;
+				level.tiles[x][y] = Tile::Floor;
 			}
 		}
 	}
 }
+
 
 int main(void)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Sunshine");
     SetTargetFPS(60);
 	rlImGuiSetup(true);
+
+
+	
 
     while (!WindowShouldClose())
     {
@@ -41,11 +45,11 @@ int main(void)
 
 		rlImGuiBegin();
 
-		ImGui::SliderFloat("wall chance", &(generateWallChance), 0, 0.2);
+		ImGui::SliderFloat("wall chance", &(generateWallChance), 0, 0.2f);
 
 		if(ImGui::Button("Randomize map"))
 		{
-			RandomTiles(map, generateWallChance);
+			RandomTiles(map, 0.2f);
 
 		}
 
@@ -53,6 +57,7 @@ int main(void)
 		rlImGuiEnd();
 		
 		map.DrawTiles();
+		
 
         EndDrawing();
     }
