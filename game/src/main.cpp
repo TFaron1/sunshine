@@ -95,12 +95,12 @@ int main(void)
         Vector2 displacement = velocity * dt;
         position = position + displacement + acceleration * 0.5 * dt * dt;
         velocity = velocity + acceleration * dt;
-        velocity = velocity + acceleration * dt;
+       
 
         Vector2 displacement2 = velocity2 * dt;
         position2 = position2 + displacement2 + acceleration2 * 0.5 * dt * dt;
         velocity2 = velocity2 + acceleration2 * dt;
-        velocity2 = velocity2 + acceleration2 * dt;
+      
 
         if (IsKeyPressed(KEY_ZERO))
         {
