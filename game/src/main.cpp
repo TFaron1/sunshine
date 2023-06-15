@@ -56,15 +56,20 @@ int main(void)
     rlImGuiSetup(true);
 
 
-    Vector2 position = { 100, 100 };//px
+    Vector2 position = { GetRandomValue(0,SCREEN_WIDTH), GetRandomValue(0,SCREEN_HEIGHT)};//px
     Vector2 velocity = { 10, 0 };//px/s
     Vector2 acceleration = { 0, 50 };//px/s/s
+
+    Vector2 position2 = { GetRandomValue(0,SCREEN_WIDTH), GetRandomValue(0,SCREEN_HEIGHT) };//px
+    Vector2 velocity2 = { 10, 0 };//px/s
+    Vector2 acceleration2 = { 0, 50 };//px/s/s
 
     float speed = 500;
     float maxSpeed = 1000;
     float maxAccel = 1000;
 
     Color lineColor = GREEN;
+    Color lineColor2 = GREEN;
 
     Mode mode;
 
@@ -91,6 +96,11 @@ int main(void)
         position = position + displacement + acceleration * 0.5 * dt * dt;
         velocity = velocity + acceleration * dt;
         velocity = velocity + acceleration * dt;
+
+        Vector2 displacement2 = velocity2 * dt;
+        position2 = position2 + displacement2 + acceleration2 * 0.5 * dt * dt;
+        velocity2 = velocity2 + acceleration2 * dt;
+        velocity2 = velocity2 + acceleration2 * dt;
 
         if (IsKeyPressed(KEY_ZERO))
         {
@@ -139,6 +149,7 @@ int main(void)
                 if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
                 {
                     acceleration = Normalize(GetMousePosition() - position) * speed - velocity;
+                    acceleration2 = Normalize(GetMousePosition() - position2) * speed - velocity2;
                 }
             }
 
@@ -203,7 +214,7 @@ int main(void)
             
             if (CheckCollisionCircles(food.Position, 10, position, 50))
             {
-              
+                
             }
         }
 
@@ -215,6 +226,11 @@ int main(void)
             {
                 acceleration = Negate(Normalize(pred.position - position) * speed - velocity);
             }
+
+            if (CheckCollisionCircles(position2, 50, pred.position, 20))
+            {
+                acceleration2 = Negate(Normalize(pred.position - position2) * speed - velocity2);
+            }
         }
 
         for (const Obstacle& obstacle : AllObstacle)
@@ -224,15 +240,25 @@ int main(void)
             if (CheckCollisionLineCircle(position, position + Whisker1 * 100, obstacle.Position, 10) == true ||
                 CheckCollisionLineCircle(position, position + Whisker2 * 100, obstacle.Position, 10) == true)
             {
-
                 acceleration = Negate(Normalize(obstacle.Position - position) * speed - velocity);
                 lineColor = RED;
-
             }
             else
             {
 
                 lineColor = GREEN;
+            }
+
+            if (CheckCollisionLineCircle(position2, position2 + Whisker1 * 100, obstacle.Position, 10) == true ||
+                CheckCollisionLineCircle(position2, position2 + Whisker2 * 100, obstacle.Position, 10) == true)
+            {
+                acceleration = Negate(Normalize(obstacle.Position - position) * speed - velocity);
+                lineColor2 = RED;
+            }
+            else
+            {
+
+                lineColor2 = GREEN;
             }
           
         }
@@ -244,12 +270,16 @@ int main(void)
             AllPred.clear();
         }
         DrawCircleV(position, 50, BLACK);
-
+        DrawCircleV(position2, 50, BLACK);
 
         DrawLineV(position, position + Whisker1 * 100, lineColor);
         DrawLineV(position, position + Whisker2 * 100, lineColor);
 
+        DrawLineV(position2, position2 + Whisker1 * 100, lineColor2);
+        DrawLineV(position2, position2 + Whisker2 * 100, lineColor2);
+
         position = WrapAroundScreen(position);
+        position2 = WrapAroundScreen(position2);
         EndDrawing();
     }
     
