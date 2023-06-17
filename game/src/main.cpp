@@ -73,7 +73,7 @@ int main(void)
 
                     xA = x + 1;
                     yA = y;
-                    if (xA < MAP_WIDTH && map.IsWalkable(TileCoord(xA, yA)))//checks if adjacent square is in the map and walkable then draws line
+                    if (xA < map.GetWidth() && map.IsWalkable(TileCoord(xA, yA)))//checks if adjacent square is in the map and walkable then draws line
                     {
                         Vector2 adjacentTileCenter = map.GetScreenPositionOfTile(TileCoord(xA, yA)) + Vector2{ map.tileSizeX /2, map.tileSizeY /2 };
                         DrawLineEx(center, adjacentTileCenter, 1, BLACK);
@@ -98,7 +98,7 @@ int main(void)
 
                     xA = x;
                     yA = y + 1;
-                    if (yA < MAP_HEIGHT && map.IsWalkable(TileCoord(xA, yA)))
+                    if (yA < map.GetHeight() && map.IsWalkable(TileCoord(xA, yA)))
                     {
                         Vector2 adjacentTileCenter = map.GetScreenPositionOfTile(TileCoord(xA, yA)) + Vector2{ map.tileSizeX / 2, map.tileSizeY / 2 };
                         DrawLineEx(center, adjacentTileCenter, 1, BLACK);

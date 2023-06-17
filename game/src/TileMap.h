@@ -101,15 +101,15 @@ public:
 				{
 					level.tiles[x][y] = Tile::Floor;
 				}
-			}//Randomize the player spawn
-			int playerX;
-			int playerY;
+			}
+			int playerX = 0;
+			int playerY = 0;
 
-			do
+			while (tiles[playerX][playerY] != Tile::Floor)
 			{
 				playerY = rand() % MAP_HEIGHT;
 				playerX = rand() % MAP_WIDTH;
-			} while (tiles[playerX][playerY] != Tile::Floor);
+			}
 			playerPosition = TileCoord(playerX, playerY);
 		}
 	}
