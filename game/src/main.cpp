@@ -6,25 +6,6 @@ float generateWallChance = 0.2;
 
 TileMap map;
 
-void RandomTiles(TileMap& level, float chanceOfWall = 0.2)
-{
-	for (int x = 0; x < level.GetWidth(); x++)
-	{
-		for (int y = 0; y < level.GetHeight(); y++)
-		{
-
-
-			if (GetRandomValue(0.0, 1.0)  < chanceOfWall)
-			{
-				level.tiles[x][y] = Tile::Wall;
-			}
-			else 
-			{
-				level.tiles[x][y] = Tile::Floor;
-			}
-		}
-	}
-}
 
 
 int main(void)
@@ -49,7 +30,7 @@ int main(void)
 
 		if(ImGui::Button("Randomize map"))
 		{
-			RandomTiles(map, 0.2f);
+			map.RandomTiles(map, generateWallChance);
 
 		}
 
