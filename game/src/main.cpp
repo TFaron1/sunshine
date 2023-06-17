@@ -14,7 +14,7 @@ int main(void)
     SetTargetFPS(60);
 	rlImGuiSetup(true);
 
-
+    LoadImage("")
 	
 
     while (!WindowShouldClose())
