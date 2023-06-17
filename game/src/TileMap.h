@@ -1,10 +1,15 @@
 #pragma once
 #include "TileCoord.h"
 #include "raylib.h"
-
+#include <vector>
 
 const unsigned int  MAP_WIDTH = 24;
 const unsigned int MAP_HEIGHT = 12;
+
+const Vector2 NORTH = { -1, 0 };
+const Vector2 SOUTH = { 1, 0 };
+const Vector2 EAST = { 0,  1 };
+const Vector2 WEST = { 0, -1 };
 
 enum class Tile
 {
@@ -108,6 +113,23 @@ public:
 		}
 	}
 
+	std::vector<Vector2> GetWalkableAdjacentTo(Vector2 tilePos)
+	{
+		std::vector<Vector2> adjacentTilePosition;
+
+		Vector2 N = tilePos + NORTH;
+		Vector2 S = tilePos + SOUTH;
+		Vector2 E = tilePos + EAST;
+		Vector2 W = tilePos + WEST;
+
+		if(IsWalkable(N)) adjacentTilePosition.push_back(N);
+		if(IsWalkable(S)) adjacentTilePosition.push_back(S);
+		if(IsWalkable(E)) adjacentTilePosition.push_back(E);
+		if(IsWalkable(W)) adjacentTilePosition.push_back(W);
+
+		return adjacentTilePosition;
+	}
+
 
 	void DrawTiles()
 	{
@@ -123,7 +145,7 @@ public:
 				DrawRectangleV(position, { (float)tileSizeX, (float)tileSizeY }, color);
 
 				Vector2 playerPositionOnScreen = GetScreenPositionOfTile(playerPosition);
-				DrawRectangle(static_cast<int>(playerPositionOnScreen.x), static_cast<int>(playerPositionOnScreen.y), tileSizeX, tileSizeY, BLUE);
+				DrawRectangle(static_cast<int>(playerPositionOnScreen.x), static_cast<int>(playerPositionOnScreen.y), tileSizeX, tileSizeY, BLACK);
 
 			}
 		}

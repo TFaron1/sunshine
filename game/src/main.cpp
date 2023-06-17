@@ -34,9 +34,17 @@ int main(void)
 
 		}
 
-
 		rlImGuiEnd();
 		
+        if (IsKeyPressed(KEY_W) && map.IsWalkable(map.playerPosition - TileCoord(0, 1)))
+            map.playerPosition -= TileCoord(0, 1);
+        if (IsKeyPressed(KEY_A) && map.IsWalkable(map.playerPosition - TileCoord(1, 0)))
+            map.playerPosition -= TileCoord(1, 0);
+        if (IsKeyPressed(KEY_S) && map.IsWalkable(map.playerPosition + TileCoord(0, 1)))
+            map.playerPosition += TileCoord(0, 1);
+        if (IsKeyPressed(KEY_D) && map.IsWalkable(map.playerPosition + TileCoord(1, 0)))
+            map.playerPosition += TileCoord(1, 0);
+
 		map.DrawTiles();
 		
 
