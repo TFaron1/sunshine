@@ -29,6 +29,7 @@ public:
 	float tileSizeX = 32;
 	float tileSizeY = 32;
 
+
 	Tile tiles[MAP_WIDTH][MAP_HEIGHT];
 	Color tileColors[(int)Tile::Count];
 
@@ -142,11 +143,11 @@ public:
 				Color color = WHITE;
 				if (tile == Tile::Floor) color = GREEN;
 				else if(tile == Tile::Wall) color = ORANGE;
-				DrawRectangleV(position, { (float)tileSizeX, (float)tileSizeY }, color);
+			DrawRectangleV(position, { (float)tileSizeX, (float)tileSizeY }, color);
 
-				Vector2 playerPositionOnScreen = GetScreenPositionOfTile(playerPosition);
-				DrawRectangle(static_cast<int>(playerPositionOnScreen.x), static_cast<int>(playerPositionOnScreen.y), tileSizeX, tileSizeY, BLACK);
-
+				Vector2 playerPositionScreen = GetScreenPositionOfTile(playerPosition);
+			DrawRectangle(static_cast<int>(playerPositionScreen.x), static_cast<int>(playerPositionScreen.y), tileSizeX, tileSizeY, BLACK);
+				
 			}
 		}
 	}

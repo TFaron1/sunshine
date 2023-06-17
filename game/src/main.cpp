@@ -14,7 +14,7 @@ int main(void)
     SetTargetFPS(60);
 	rlImGuiSetup(true);
 
-    LoadImage("")
+   
 	
 
     while (!WindowShouldClose())
@@ -59,9 +59,9 @@ int main(void)
 
 		map.DrawTiles();
 		
-        for (int y = 0; y < MAP_HEIGHT; y++)
+        for (int y = 0; y < map.GetHeight(); y++)
         {
-            for (int x = 0; x < MAP_WIDTH; x++)
+            for (int x = 0; x < map.GetWidth(); x++)
             {
                 if (map.IsWalkable(TileCoord(x, y)))
                 {
