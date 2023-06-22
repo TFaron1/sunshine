@@ -37,6 +37,10 @@ public:
 
 	Tile GetTile(int x, int y);
 
+	std::vector<TileCoord> GetAllTraversableTiles()
+	{
+		//if()
+	}
 
 	Vector2 GetScreenPositionOfTile(TileCoord tilePosition)
 	{
