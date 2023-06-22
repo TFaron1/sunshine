@@ -37,9 +37,20 @@ public:
 
 	Tile GetTile(int x, int y);
 
-	std::vector<TileCoord> GetAllTraversableTiles()
+	std::vector<TileCoord> GetAllWalkableTiles()
 	{
-		//if()
+		std::vector<TileCoord>floor;
+
+		for (int x = 0; x < GetWidth(); x++)
+		{
+			for (int y = 0; y < GetHeight(); y++)
+			{
+				Tile tile = tiles[x][y];
+			//	IsWalkable(floor);
+			}
+		}
+
+		return floor;
 	}
 
 	Vector2 GetScreenPositionOfTile(TileCoord tilePosition)
